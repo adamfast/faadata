@@ -2,9 +2,9 @@ import datetime
 import sys
 from django import db
 from django.conf import settings
-from aircraft.models import AircraftRegistration, AircraftManufacturerCode
-from aircraft.parser import AircraftRegistration as AircraftRegistrationParser
-from aircraft.parser import AircraftManufacturerCode as AircraftManufacturerCodeParser
+from faadata.aircraft.models import AircraftRegistration, AircraftManufacturerCode
+from faadata.aircraft.parser import AircraftRegistration as AircraftRegistrationParser
+from faadata.aircraft.parser import AircraftManufacturerCode as AircraftManufacturerCodeParser
 
 # for the file I have, the line count is 376,298 total.
 # One blank line at the end, and the header line. That means I should get a final count of 376,296.
