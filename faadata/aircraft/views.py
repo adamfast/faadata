@@ -3,7 +3,7 @@ from django.contrib.localflavor.us.forms import USStateField
 from django.core.cache import cache
 from django.shortcuts import render_to_response
 from django.views.generic.list_detail import object_list
-from aero.aircraft.models import *
+from aircraft.models import *
 
 class search_form(forms.Form):
     model = forms.CharField(label='Aircraft Model')
