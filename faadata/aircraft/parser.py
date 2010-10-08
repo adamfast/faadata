@@ -54,9 +54,9 @@ class AircraftRegistration(object):
             self.engine_type = None
         self.status_code = record[252].strip()
         self.mode_s_code = record[254:262].strip()
-        self.fractional_ownership = record[263].strip()
-        if record[265:273].strip():
-            self.airworthiness_date = datetime.datetime.strptime(record[265:273], "%Y%m%d").date()
+        self.fractional_ownership = record[265].strip()
+        if record[267:275].strip():
+            self.airworthiness_date = datetime.datetime.strptime(record[267:275], "%Y%m%d").date()
         else:
             self.airworthiness_date = None
         self.other_name_1 = record[274:324].strip()

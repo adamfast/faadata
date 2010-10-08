@@ -93,7 +93,7 @@ def import_aircraftregistration(path):
 if __name__ == '__main__':
     if getattr(settings, 'FAA_AIRCRAFT_DB_PATH', False):
         start_time = datetime.datetime.now()
-#        import_aircraftregistration(settings.FAA_AIRCRAFT_DB_PATH)
+        import_aircraftregistration(settings.FAA_AIRCRAFT_DB_PATH)
         import_aircraftmanufacturercodes(settings.FAA_AIRCRAFT_DB_PATH)
         print('Took %s' % (datetime.datetime.now() - start_time))
 #        print('Assuming manual count (%s) that is %s sec. per record' % (int(NUMBER_OF_LINES_SPOTTED_IN_FILE), (datetime.datetime.now() - start_time) / int(NUMBER_OF_LINES_SPOTTED_IN_FILE)))
