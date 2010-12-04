@@ -38,3 +38,11 @@ class Remark(models.Model):
 
     def __unicode__(self):
         return u'%s for %s' % (self.element_name, self.airport)
+
+class Attendance(models.Model):
+    airport = models.ForeignKey(Airport)
+    sequence = models.IntegerField()
+    schedule = models.TextField()
+
+    def __unicode__(self):
+        return u'%s for %s' % (self.sequence, self.airport)

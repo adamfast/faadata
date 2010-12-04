@@ -2,7 +2,7 @@
 # -*- coding: utf-8
 from django.contrib.gis.geos import Point
 from decimal import Decimal
-from faadata.airports.models import Airport, Remark
+from faadata.airports.models import *
 from faddsdata.apt import parse_apt_line
 from faddsdata.parse import convert_boolean, convert_month_year
 
@@ -17,9 +17,17 @@ def clean_chars(value):
 
 def airport_import(importfile):
     Remark.objects.all().delete() # there's no way to version them. Start with a clean slate each time.
+    Attendance.objects.all().delete()
+
     for line in importfile:
         data = parse_apt_line(clean_chars(line))
-        if data['record_type'] == 'RMK':
+        if data['record_type'] == 'ATT':
+            try:
+                attendance = Attendance.objects.create(airport=airport, sequence=data['attendace_schedule_sequence'], schedule=data['attendance_schedule'])
+            except:
+                print data
+
+        elif data['record_type'] == 'RMK':
             try:
                 remark = Remark.objects.create(airport=airport, element_name=data['element_name'], body=data['element_text'])
             except:

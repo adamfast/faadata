@@ -9,5 +9,9 @@ class AirportAdmin(admin.OSMGeoAdmin):
 class RemarkAdmin(admin.ModelAdmin):
     list_display = ('airport', 'element_name')
 
+class AttendanceAdmin(admin.ModelAdmin):
+    list_display = ('airport', 'sequence')
+
 admin.site.register(Airport, AirportAdmin)
 admin.site.register(Remark, RemarkAdmin)
+admin.site.register(Attendance, AttendanceAdmin)
