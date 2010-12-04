@@ -2,18 +2,30 @@
 # -*- coding: utf-8
 from django.contrib.gis.geos import Point
 from decimal import Decimal
-from faadata.airports.models import Airport
+from faadata.airports.models import Airport, Remark
 from faddsdata.apt import parse_apt_line
 from faddsdata.parse import convert_boolean, convert_month_year
 
 def clean_chars(value):
     value = value.replace('\xb9', ' ')
+    value = value.replace('\xf8', ' ')
+    value = value.replace('\xab', ' ')
+    value = value.replace('\xa8', ' ')
+    value = value.replace('\xfb', ' ')
+    value = value.replace('\xfc', ' ')
     return value
 
 def airport_import(importfile):
+    Remark.objects.all().delete() # there's no way to version them. Start with a clean slate each time.
     for line in importfile:
         data = parse_apt_line(clean_chars(line))
-        if data['record_type'] == 'APT':
+        if data['record_type'] == 'RMK':
+            try:
+                remark = Remark.objects.create(airport=airport, element_name=data['element_name'], body=data['element_text'])
+            except:
+                print data
+
+        elif data['record_type'] == 'APT':
             try:
                 airport = Airport.objects.get(facility_site_number=data['facility_site_number'])
             except Airport.DoesNotExist:
@@ -48,7 +60,7 @@ def airport_import(importfile):
             try:
                 airport.save()
             except:
-                import pdb; pdb.set_trace()
+                print('Airport data fail for %s' % data['location_identifer'])
 
 
 if __name__ == '__main__':

@@ -30,3 +30,11 @@ class Airport(models.Model):
 
     def __unicode__(self):
         return self.facility_name
+
+class Remark(models.Model):
+    airport = models.ForeignKey(Airport)
+    element_name = models.CharField(max_length=11)
+    body = models.TextField()
+
+    def __unicode__(self):
+        return u'%s for %s' % (self.element_name, self.airport)
