@@ -12,6 +12,11 @@ class RemarkAdmin(admin.ModelAdmin):
 class AttendanceAdmin(admin.ModelAdmin):
     list_display = ('airport', 'sequence')
 
+class RunwayAdmin(admin.OSMGeoAdmin):
+    list_display = ('airport', 'runway_identification', 'runway_length', 'runway_width', 'surface_type_condition', 'surface_treatment')
+    search_fields = ('airport__location_identifier', )
+
 admin.site.register(Airport, AirportAdmin)
 admin.site.register(Remark, RemarkAdmin)
 admin.site.register(Attendance, AttendanceAdmin)
+admin.site.register(Runway, RunwayAdmin)

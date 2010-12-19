@@ -46,3 +46,32 @@ class Attendance(models.Model):
 
     def __unicode__(self):
         return u'%s for %s' % (self.sequence, self.airport)
+
+class Runway(models.Model):
+    airport = models.ForeignKey(Airport)
+    runway_identification = models.CharField(max_length='7')
+    runway_length = models.IntegerField(null=True, blank=True)
+    runway_width = models.IntegerField(null=True, blank=True)
+    surface_type_condition = models.CharField(max_length=14, null=True, blank=True)
+    surface_treatment = models.CharField(max_length=8, null=True, blank=True)
+    pavement_classification_number = models.CharField(max_length=14, null=True, blank=True)
+    lights_edge_intensity = models.CharField(max_length=8, null=True, blank=True)
+    base_end_point = models.PointField(srid=4326, null=True, blank=True)
+    base_end_elevation_physical_runway_end = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
+    base_end_displaced_threshold_point = models.PointField(srid=4326, null=True, blank=True)
+    base_end_elevation_displaced_threshold = models.IntegerField(null=True, blank=True)
+    base_end_displaced_threshold_length_from_end = models.IntegerField(null=True, blank=True)
+    base_end_visual_glide_slope_indicators = models.CharField(max_length=8, null=True, blank=True)
+    base_end_runway_visual_range_equipment_locations = models.CharField(max_length=8, null=True, blank=True)
+    base_end_runway_visual_range_equipment = models.BooleanField(default=False)
+    reciprocal_end_point = models.PointField(srid=4326, null=True, blank=True)
+    reciprocal_end_elevation_physical_runway_end = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
+    reciprocal_end_displaced_threshold_point = models.PointField(srid=4326, null=True, blank=True)
+    reciprocal_end_elevation_displaced_threshold = models.IntegerField(null=True, blank=True)
+    reciprocal_end_displaced_threshold_length_from_end = models.IntegerField(null=True, blank=True)
+    reciprocal_end_visual_glide_slope_indicators = models.CharField(max_length=8, null=True, blank=True)
+    reciprocal_end_runway_visual_range_equipment_locations = models.CharField(max_length=8, null=True, blank=True)
+    reciprocal_end_runway_visual_range_equipment = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return 'Rwy %s at %s' % (self.runway_identification, self.airport)
