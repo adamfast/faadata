@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if object_list %}
+    <table border='0' cellspacing='6' cellpadding='0'>
+        <tr>
+            <th>Location ID</th>
+            <th>Facility Name</th>
+            <th>Elevation MSL</th>
+            <th>Activation Date</th>
+            <th>Singles Based</th>
+        </tr>
+    {% for object in object_list %}
+        <tr>
+            <td>{{ object.location_identifier }}</td>
+            <td>{{ object.facility_name }}</td>
+            <td>{{ object.elevation_msl }}</td>
+            <td>{{ object.activation_date }}</td>
+            <td>{{ object.singles_based }}</td>
+        </tr>
+    {% endfor %}
+
+    {% if is_paginated %}
+        <tr>
+            <td colspan='5' align='right'>
+      {% if page_obj.has_previous %}
+        <a href='?page={{ page_obj.previous_page_number }}'>&lt; Prev</a>&nbsp;&nbsp;
+      {% endif %}
+      Page {{ page }} of {{ paginator.num_pages }}
+      {% if page_obj.has_next %}
+        &nbsp;&nbsp;<a href='?page={{ page_obj.next_page_number }}'>Next &gt;</a>
+      {% endif %}
+            </td>
+        </tr>
+    {% endif %}
+    </table>
+
+    {% endif %}
+{% endblock content %}
