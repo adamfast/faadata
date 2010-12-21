@@ -10,7 +10,7 @@
         </tr>
     {% for object in object_list %}
         <tr>
-            <td>{{ object.id }}</td>
+            <td><a href='{{ object.get_absolute_url }}'>{{ object.id }}</a></td>
             <td>{{ object.fix_type }}</td>
             <td>{{ object.artcc }}</td>
         </tr>
