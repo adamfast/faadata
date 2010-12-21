@@ -12,7 +12,7 @@
         </tr>
     {% for object in object_list %}
         <tr>
-            <td>{{ object.location_identifier }}</td>
+            <td><a href='{{ object.get_absolute_url }}'>{{ object.location_identifier }}</a></td>
             <td>{{ object.facility_name }}</td>
             <td>{{ object.elevation_msl }}</td>
             <td>{{ object.activation_date }}</td>
