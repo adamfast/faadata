@@ -91,6 +91,7 @@ def import_aircraftregistration(path):
     print('A difference of %s' % int(NUMBER_OF_LINES_SPOTTED_IN_FILE) - int(count))
 
 if __name__ == '__main__':
+    # You can get the FAA Aircraft database from: http://www.faa.gov/licenses_certificates/aircraft_certification/aircraft_registry/releasable_aircraft_download/
     if getattr(settings, 'FAA_AIRCRAFT_DB_PATH', False):
         start_time = datetime.datetime.now()
         import_aircraftregistration(settings.FAA_AIRCRAFT_DB_PATH)

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if object_list %}
+    <table border='0' cellspacing='6' cellpadding='0'>
+        <tr>
+            <th>N-Number</th>
+            <th>MFG Year</th>
+            <th>Registrant</th>
+            <th>Location</th>
+            <th>Airworthiness Date</th>
+        </tr>
+    {% for object in object_list %}
+        <tr>
+            <td><a href='{{ object.get_absolute_url }}'>N{{ object.n_number }}</a></td>
+            <td>{{ object.year_mfg }}</td>
+            <td>{{ object.registrant_name }}</td>
+            <td>{{ object.city }}, {{ object.state }}</td>
+            <td>{{ object.airworthiness_date }}</td>
+        </tr>
+    {% endfor %}
+
+    {% if is_paginated %}
+        <tr>
+            <td colspan='5' align='right'>
+      {% if page_obj.has_previous %}
+        <a href='?page={{ page_obj.previous_page_number }}'>&lt; Prev</a>&nbsp;&nbsp;
+      {% endif %}
+      Page {{ page }} of {{ paginator.num_pages }}
+      {% if page_obj.has_next %}
+        &nbsp;&nbsp;<a href='?page={{ page_obj.next_page_number }}'>Next &gt;</a>
+      {% endif %}
+            </td>
+        </tr>
+    {% endif %}
+    </table>
+
+    {% endif %}
+{% endblock content %}

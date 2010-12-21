@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+from django.core.urlresolvers import reverse
 
 TYPE_REGISTRANT_CHOICES = (
     (1, 'Individual'),
@@ -141,6 +142,8 @@ class AircraftRegistration(models.Model):
             value = value + ", " + self.other_name_5
         return value
 
+    def get_absolute_url(self):
+        return reverse('aircraft_detail', args=[self.n_number])
 
     def __unicode__(self):
         return self.n_number
