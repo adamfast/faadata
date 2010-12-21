@@ -1,5 +1,32 @@
 {% extends "base.html" %}
 
+{% block head_override %}
+<script type="text/javascript">
+  function mapInitialize() {
+    var latlng = new google.maps.LatLng({{ object.point.y }}, {{ object.point.x }});
+    var myOptions = {
+      zoom: 15,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.SATELLITE
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+    var marker = new google.maps.Marker({
+          position: latlng, 
+          map: map, 
+          title:"{{ object.id }}"
+      });
+  }
+
+</script>
+{% endblock head_override %}
+
+{% block body_override %}onload="mapInitialize()"{% endblock body_override %}
+
 {% block content %}
-{{ fix.id }}
+Fix: {{ object.id }}<br>
+ARTCC: {{ object.artcc }}<br>
+Type of fix: {{ object.fix_type }}<br>
+<br>
+<div id="map_canvas" style='width:600px;height:400px;'></div>
 {% endblock content %}
