@@ -1,5 +1,44 @@
 {% extends "base.html" %}
 
+{% block head_override %}
+<script type="text/javascript">
+  function mapInitialize() {
+    var latlng = new google.maps.LatLng({{ object.point.y }}, {{ object.point.x }});
+    var myOptions = {
+      zoom: 13,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.SATELLITE
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+    var marker = new google.maps.Marker({
+          position: latlng, 
+          map: map, 
+          title:"{{ object.location_id }}"
+      });
+  }
+
+</script>
+{% endblock head_override %}
+
+{% block body_override %}onload="mapInitialize()"{% endblock body_override %}
+
 {% block content %}
-{{ object.facility_name }}
+<h1>{{ object.facility_name }}</h1>
+Elevation: {{ object.elevation_msl }} MSL<br>
+Activated: {{ object.activation_date }}<br>
+CTAF: {{ object.ctaf }}<br>
+Landing Fees: {{ object.landing_fees|yesno }}<br>
+Aircraft on-field:
+<ul>
+    <li>Singles: {{ object.singles_based }}</li>
+    <li>Multis: {{ object.multis_based }}</li>
+    <li>Jets: {{ object.jets_based }}</li>
+    <li>Helicopters: {{ object.helicopters_based }}</li>
+    <li>Gliders: {{ object.gliders_based }}</li>
+    <li>Military: {{ object.military_based }}</li>
+    <li>Ultralights: {{ object.ultralights_based }}</li>
+</ul>
+<br>
+<div id="map_canvas" style='width:600px;height:400px;'></div>
 {% endblock content %}
