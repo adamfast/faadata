@@ -101,13 +101,20 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             airport.beacon_color = data['beacon_color']
             airport.landing_fees = convert_boolean(data['landing_fees'])
             airport.medical_use = convert_boolean(data['medical_use'])
-            airport.singles_based = getattr(data, 'singles_based', 0)
-            airport.multis_based = getattr(data, 'multis_based', 0)
-            airport.jets_based = getattr(data, 'jets_based', 0)
-            airport.helicopters_based = getattr(data, 'helicopters_based', 0)
-            airport.gliders_based = getattr(data, 'gliders_based', 0)
-            airport.military_based = getattr(data, 'military_based', 0)
-            airport.ultralights_based = getattr(data, 'ultralights_based', 0)
+            if data.get('singles_based', False):
+                airport.singles_based = data['singles_based']
+            if data.get('multis_based', None):
+                airport.multis_based = data['multis_based']
+            if data.get('jets_based', False):
+                airport.jets_based = data['jets_based']
+            if data.get('helicopters_based', False):
+                airport.helicopters_based = data['helicopters_based']
+            if data.get('gliders_based', False):
+                airport.gliders_based = data['gliders_based']
+            if data.get('military_based', False):
+                airport.military_based = data['military_based']
+            if data.get('ultralights_based', False):
+                airport.ultralights_based = data['ultralights_based']
             airport.icao_identifier = data['icao_identifier']
             try:
                 airport.save()
