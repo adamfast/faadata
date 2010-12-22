@@ -112,7 +112,7 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             try:
                 airport.save()
             except:
-                print('Airport data fail for %s' % data['location_identifer'])
+                print('Airport data fail for %s' % data['location_identifier'])
 
         count += 1
         if count > max_records:
