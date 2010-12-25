@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
 
@@ -11,8 +12,16 @@ class Fix(models.Model):
     def get_absolute_url(self):
         return reverse('fix_detail', args=[self.id])
 
+    def locator_point(self):
+        return self.point
+
     def __unicode__(self):
         return self.id
 
     class Meta:
         verbose_name_plural = 'Fixes'
+
+# integrate with the django-locator app for easy geo lookups if it's installed
+if 'locator.objects' in settings.INSTALLED_APPS:
+    from locator.objects.models import create_locator_object
+    models.signals.post_save.connect(create_locator_object, sender=Fix)

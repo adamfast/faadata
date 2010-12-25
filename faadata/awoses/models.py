@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.gis.db import models
 from faadata.airports.models import Airport
 
@@ -14,5 +15,13 @@ class AWOS(models.Model):
     state = models.CharField(max_length=2)
     effective_date = models.DateField()
 
+    def locator_point(self):
+        return self.point
+
     def __unicode__(self):
         return self.identifier
+
+# integrate with the django-locator app for easy geo lookups if it's installed
+if 'locator.objects' in settings.INSTALLED_APPS:
+    from locator.objects.models import create_locator_object
+    models.signals.post_save.connect(create_locator_object, sender=AWOS)

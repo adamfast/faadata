@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.contrib.gis.db import models
+from django.contrib.gis.geos import LineString
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 class Airport(models.Model):
     facility_site_number = models.CharField(max_length=11, primary_key=True, unique=True)
@@ -20,17 +23,20 @@ class Airport(models.Model):
     beacon_color = models.CharField(max_length=3)
     landing_fees = models.BooleanField()
     medical_use = models.BooleanField()
-    singles_based = models.IntegerField()
-    multis_based = models.IntegerField()
-    jets_based = models.IntegerField()
-    helicopters_based = models.IntegerField()
-    gliders_based = models.IntegerField()
-    military_based = models.IntegerField()
-    ultralights_based = models.IntegerField()
+    singles_based = models.IntegerField(default=0)
+    multis_based = models.IntegerField(default=0)
+    jets_based = models.IntegerField(default=0)
+    helicopters_based = models.IntegerField(default=0)
+    gliders_based = models.IntegerField(default=0)
+    military_based = models.IntegerField(default=0)
+    ultralights_based = models.IntegerField(default=0)
     icao_identifier = models.CharField(max_length=7)
 
     def get_absolute_url(self):
         return reverse('airport_detail', args=[self.location_identifier])
+
+    def locator_point(self):
+        return self.point
 
     def __unicode__(self):
         return self.facility_name
@@ -77,5 +83,17 @@ class Runway(models.Model):
     reciprocal_end_runway_visual_range_equipment_locations = models.CharField(max_length=8, null=True, blank=True)
     reciprocal_end_runway_visual_range_equipment = models.BooleanField(default=False)
 
+    def locator_point(self):
+        if self.base_end_point and self.reciprocal_end_point:
+            ls = LineString(self.base_end_point, self.reciprocal_end_point)
+            return ls.centroid
+        return None
+
     def __unicode__(self):
         return 'Rwy %s at %s' % (self.runway_identification, self.airport)
+
+# integrate with the django-locator app for easy geo lookups if it's installed
+if 'locator.objects' in settings.INSTALLED_APPS:
+    from locator.objects.models import create_locator_object
+    models.signals.post_save.connect(create_locator_object, sender=Airport)
+    models.signals.post_save.connect(create_locator_object, sender=Runway)
