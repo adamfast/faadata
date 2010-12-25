@@ -54,11 +54,11 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             runway.surface_treatment = data['surface_treatment']
             runway.pavement_classification_number = data['pavement_classification_number']
             runway.lights_edge_intensity = data['lights_edge_intensity']
-            if getattr(data, 'base_end_lon', False) and getattr(data, 'base_end_lat', False):
+            if data.get('base_end_lon', False) and data.get('base_end_lat', False):
                 runway.base_end_point = Point((data['base_end_lon'], data['base_end_lat']))
             if data['base_end_elevation_physical_runway_end']:
                 runway.base_end_elevation_physical_runway_end = Decimal(data['base_end_elevation_physical_runway_end'])
-            if getattr(data, 'base_end_displaced_threshold_lon', False) and getattr(data, 'base_end_displaced_threshold_lat', False):
+            if data.get('base_end_displaced_threshold_lon', False) and data.get('base_end_displaced_threshold_lat', False):
                 runway.base_end_displaced_threshold_point = Point((data['base_end_displaced_threshold_lon'], data['base_end_displaced_threshold_lat']))
             if data['base_end_elevation_displaced_threshold']:
                 runway.base_end_elevation_displaced_threshold = Decimal(data['base_end_elevation_displaced_threshold'])
@@ -67,11 +67,11 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             runway.base_end_visual_glide_slope_indicators = data['base_end_visual_glide_slope_indicators']
             runway.base_end_runway_visual_range_equipment_locations = data['base_end_runway_visual_range_equipment_locations']
             runway.base_end_runway_visual_range_equipment = convert_boolean(data['base_end_runway_visual_range_equipment'])
-            if getattr(data, 'reciprocal_end_lon', False) and getattr(data, 'reciprocal_end_lat', False):
+            if data.get('reciprocal_end_lon', False) and data.get('reciprocal_end_lat', False):
                 runway.reciprocal_end_point = Point((data['reciprocal_end_lon'], data['reciprocal_end_lat']))
             if data['reciprocal_end_elevation_physical_runway_end']:
                 runway.reciprocal_end_elevation_physical_runway_end = Decimal(data['reciprocal_end_elevation_physical_runway_end'])
-            if getattr(data, 'reciprocal_end_displaced_threshold_lon', False) and getattr(data, 'reciprocal_end_displaced_threshold_lat', False):
+            if data.get('reciprocal_end_displaced_threshold_lon', False) and data.get('reciprocal_end_displaced_threshold_lat', False):
                 runway.reciprocal_end_displaced_threshold_point = Point((data['reciprocal_end_displaced_threshold_lon'], data['reciprocal_end_displaced_threshold_lat']))
             if data['reciprocal_end_elevation_displaced_threshold']:
                 runway.reciprocal_end_elevation_displaced_threshold = Decimal(data['reciprocal_end_elevation_displaced_threshold'])
@@ -91,7 +91,8 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             airport.facility_manager_name = data['facility_manager_name']
             airport.point = Point((data['lon'], data['lat']))
             airport.elevation_msl = data['elevation_msl']
-            airport.traffic_pattern_agl = getattr(data, 'traffic_pattern_agl', None)
+            if data['traffic_pattern_agl']:
+                airport.traffic_pattern_agl = data['traffic_pattern_agl']
             airport.activation_date = convert_month_year(data['activation_date'])
             airport.status = data['status_code']
             airport.control_tower = convert_boolean(data['control_tower'])
