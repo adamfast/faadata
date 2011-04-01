@@ -18,7 +18,3 @@ def natfix_import(importfile):
         f.state_post_office_code = fix['state_code']
         f.fix_type = fix['fix_navaid_type']
         f.save()
-
-if __name__ == '__main__':
-    path = '/Users/adam/Downloads/56DySubscription_January_13__2011_-_March_10__2011/'
-    natfix_import(open(path + 'NATFIX.txt'))

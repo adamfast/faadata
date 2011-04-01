@@ -125,7 +125,3 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
         count += 1
         if count > max_records:
             exit()
-
-if __name__ == '__main__':
-    path = '/Users/adam/Downloads/56DySubscription_January_13__2011_-_March_10__2011/'
-    airport_import(open(path + 'APT.txt'), {'import_att': True, 'import_rmk': True, 'import_rwy': True, 'import_apt': True}) # , max_records=100)

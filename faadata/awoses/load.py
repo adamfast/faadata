@@ -41,8 +41,3 @@ def awos_import(importfile):
         if data.get('lon') and data.get('lat'):
             awos.point = Point((data['lon'], data['lat']))
         awos.save()
-
-
-if __name__ == '__main__':
-    path = '/Users/adam/Downloads/56DySubscription_January_13__2011_-_March_10__2011/'
-    awos_import(open(path + 'AWOS.txt'))
