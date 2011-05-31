@@ -1,6 +1,12 @@
 from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
 
+try:
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([], ["^django\.contrib\.gis\.db\.models\.fields\.PointField"])
+except ImportError: # don't require South to be installed
+    pass
+
 TYPE_REGISTRANT_CHOICES = (
     (1, 'Individual'),
     (2, 'Partnership'),
