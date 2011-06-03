@@ -126,6 +126,7 @@ class AircraftRegistration(models.Model):
     other_name_3 = models.CharField(max_length=50, null=True, blank=True)
     other_name_4 = models.CharField(max_length=50, null=True, blank=True)
     other_name_5 = models.CharField(max_length=50, null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
     point = models.PointField(null=True, blank=True, srid=4326)
 
     def manufacturer_model(self):
