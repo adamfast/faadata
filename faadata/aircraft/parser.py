@@ -64,3 +64,7 @@ class AircraftRegistration(object):
         self.other_name_3 = record[376:426].strip()
         self.other_name_4 = record[427:477].strip()
         self.other_name_5 = record[478:528].strip()
+        if record[531:539].strip():
+            self.expiration_date = datetime.datetime.strptime(record[531:539], "%Y%m%d").date()
+        else:
+            self.expiration_date = None
