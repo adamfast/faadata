@@ -6,9 +6,9 @@ from faadata.aircraft.models import AircraftRegistration, AircraftManufacturerCo
 from faadata.aircraft.parser import AircraftRegistration as AircraftRegistrationParser
 from faadata.aircraft.parser import AircraftManufacturerCode as AircraftManufacturerCodeParser
 
-# for the file I have, the line count is 376,298 total.
-# One blank line at the end, and the header line. That means I should get a final count of 376,296.
-NUMBER_OF_LINES_SPOTTED_IN_FILE = 376296
+# for the file I have, the line count is 369,952 total.
+# One blank line at the end, and the header line. That means I should get a final count of 369,952 total.
+NUMBER_OF_LINES_SPOTTED_IN_FILE = 369952
 
 def import_aircraftmanufacturercodes(path):
     raw = open(path + 'ACFTREF.txt')
@@ -73,7 +73,10 @@ def import_aircraftregistration(path):
                     record.other_name_3 = data.other_name_3
                     record.other_name_4 = data.other_name_4
                     record.other_name_5 = data.other_name_5
+                    record.expiration_date = data.expiration_date
                     record.save()
+                except KeyboardInterrupt:
+                    exit()
                 except:
                     print line
                     print sys.exc_info()[0]
@@ -88,7 +91,7 @@ def import_aircraftregistration(path):
 
     print('Imported count was %s' % count)
     print('Last manually updated (expected) count was %s' % NUMBER_OF_LINES_SPOTTED_IN_FILE)
-    print('A difference of %s' % int(NUMBER_OF_LINES_SPOTTED_IN_FILE) - int(count))
+    print('A difference of %s' % (int(NUMBER_OF_LINES_SPOTTED_IN_FILE) - int(count)))
 
 if __name__ == '__main__':
     # You can get the FAA Aircraft database from: http://www.faa.gov/licenses_certificates/aircraft_certification/aircraft_registry/releasable_aircraft_download/
