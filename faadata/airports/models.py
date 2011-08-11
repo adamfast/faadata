@@ -8,6 +8,8 @@ class Airport(models.Model):
     facility_site_number = models.CharField(max_length=11, primary_key=True, unique=True)
     location_identifier = models.CharField(max_length=4)
     facility_name = models.CharField(max_length=42)
+    facility_type = models.CharField(max_length=16)
+    associated_state_post_office_code = models.CharField(max_length=2)
     ownership_type = models.CharField(max_length=2)
     use_type = models.CharField(max_length=2)
     owners_name = models.CharField(max_length=35)
