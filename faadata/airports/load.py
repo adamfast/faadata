@@ -95,7 +95,7 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
                 airport.traffic_pattern_agl = data['traffic_pattern_agl']
             airport.activation_date = convert_month_year(data['activation_date'])
             airport.status = data['status_code']
-            airport.control_tower = convert_boolean(data['control_tower'])
+            airport.control_tower = data['control_tower']
             if data['common_traffic_advisory_frequency']:
                 airport.ctaf = Decimal(data['common_traffic_advisory_frequency'])
             airport.segmented_circle = convert_boolean(data['segmented_circle'])
