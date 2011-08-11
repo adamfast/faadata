@@ -85,6 +85,8 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
         elif data['record_type'] == 'APT' and config['import_apt']:
             airport.location_identifier = data['location_identifier']
             airport.facility_name = data['facility_name']
+            airport.facility_type = data['facility_type']
+            airport.associated_state_post_office_code = data['associated_state_post_office_code']
             airport.ownership_type = data['ownership_type']
             airport.use_type = data['use_type']
             airport.owners_name = data['owners_name']
