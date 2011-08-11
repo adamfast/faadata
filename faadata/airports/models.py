@@ -32,6 +32,8 @@ class Airport(models.Model):
     ultralights_based = models.IntegerField(default=0)
     icao_identifier = models.CharField(max_length=7)
 
+    objects = models.GeoManager()
+
     def get_absolute_url(self):
         return reverse('airport_detail', args=[self.location_identifier])
 
@@ -46,6 +48,8 @@ class Remark(models.Model):
     element_name = models.CharField(max_length=11)
     body = models.TextField()
 
+    objects = models.GeoManager()
+
     def __unicode__(self):
         return u'%s for %s' % (self.element_name, self.airport)
 
@@ -53,6 +57,8 @@ class Attendance(models.Model):
     airport = models.ForeignKey(Airport)
     sequence = models.IntegerField()
     schedule = models.TextField()
+
+    objects = models.GeoManager()
 
     def __unicode__(self):
         return u'%s for %s' % (self.sequence, self.airport)
@@ -82,6 +88,8 @@ class Runway(models.Model):
     reciprocal_end_visual_glide_slope_indicators = models.CharField(max_length=8, null=True, blank=True)
     reciprocal_end_runway_visual_range_equipment_locations = models.CharField(max_length=8, null=True, blank=True)
     reciprocal_end_runway_visual_range_equipment = models.BooleanField(default=False)
+
+    objects = models.GeoManager()
 
     def locator_point(self):
         if self.base_end_point and self.reciprocal_end_point:
