@@ -16,7 +16,8 @@ Detailed usage notes:
 Postgres:
 
 Create a clean database named "faadata"
-Do the postgis spatial stuff to add functions, CRS, etc
+Do the postgis spatial stuff to add functions, CRS, etc. See
+https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#spatialdb-template
 
 
 Django setup:
