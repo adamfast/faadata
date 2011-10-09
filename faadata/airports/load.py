@@ -7,9 +7,11 @@ from faddsdata.apt import parse_apt_line
 from faddsdata.parse import convert_boolean, convert_month_year
 
 def clean_chars(value):
+    "Hack to remove non-ASCII data. Should convert to Unicode: code page 437?"
     value = value.replace('\xb9', ' ')
     value = value.replace('\xf8', ' ')
     value = value.replace('\xab', ' ')
+    value = value.replace('\xa7', ' ')
     value = value.replace('\xa8', ' ')
     value = value.replace('\xfb', ' ')
     value = value.replace('\xfc', ' ')
