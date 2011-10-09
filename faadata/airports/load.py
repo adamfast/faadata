@@ -4,7 +4,7 @@ from django.contrib.gis.geos import Point
 from decimal import Decimal
 from faadata.airports.models import *
 from faddsdata.apt import parse_apt_line
-from faddsdata.parse import convert_boolean, convert_month_year
+from faddsdata.parse import convert_boolean, convert_month_year, convert_date
 
 def clean_chars(value):
     "Hack to remove non-ASCII data. Should convert to Unicode: code page 437?"
@@ -119,10 +119,23 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             if data.get('ultralights_based', False):
                 airport.ultralights_based = data['ultralights_based']
             airport.icao_identifier = data['icao_identifier']
+
+            # experimenting with a simpler style of field setting
+            for field in ('commercial_services_operations',
+                          'commuter_services_operations',
+                          'air_taxi_operations',
+                          'ga_local_operations',
+                          'ga_itinerant_operations',
+                          'military_operations'):
+                if data.get(field, False):
+                    setattr(airport, field, data[field])
+            airport.operations_ending_date = convert_date(data['operations_ending_date'])
+
             try:
                 airport.save()
-            except:
+            except Exception, e:
                 print('Airport data fail for %s' % data['location_identifier'])
+                print e
 
         count += 1
         if count > max_records:
