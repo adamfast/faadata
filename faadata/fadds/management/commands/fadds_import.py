@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if settings.DEBUG:
-            print('You really should turn settings.DEBUG off, or else this script will eat a very large amount of your RAM.')
+            print('You must turn settings.DEBUG off, or else this script will eat a very large amount of your RAM. Aborting import.')
         else:
             input_path = options['fadds']
 
