@@ -103,7 +103,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'faadata.urls'
 
 TEMPLATE_DIRS = (
-    "/Users/nelson/src/faa-postgis/nelson/faadata/templates"
+    "/Users/nelson/src/faa-postgis/faadata/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
