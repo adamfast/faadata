@@ -10,7 +10,8 @@ Installation:
   export your DJANGO_SETTINGS_MODULE
   python aircraft/load.py will then import all the aircraft registrations
 
-As an extra bonus, the import-airspace-shapes.sh script will populate a database with geometry for US restricted airspace. 
+As an extra bonus, the import-airspace-shapes.sh script will populate a database with geometry for US restricted airspace. It doesn't use Django. Sources are the shapefiles in FADDS and the SoaringWeb OpenAir files at http://soaringweb.org/Airspace/NA/HomePage.html
+
 
 Detailed usage notes:
 
