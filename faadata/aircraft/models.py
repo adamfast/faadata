@@ -92,6 +92,8 @@ class AircraftManufacturerCode(models.Model):
     aircraft_weight = models.CharField(max_length=7)
     cruising_speed = models.CharField(max_length=4)
 
+    objects = models.GeoManager()
+
     def __unicode__(self):
         return u'%s %s' % (self.manufacturer, self.model)
 
@@ -128,6 +130,8 @@ class AircraftRegistration(models.Model):
     other_name_5 = models.CharField(max_length=50, null=True, blank=True)
     expiration_date = models.DateField(null=True, blank=True)
     point = models.PointField(null=True, blank=True, srid=4326)
+
+    objects = models.GeoManager()
 
     def manufacturer_model(self):
         try:
