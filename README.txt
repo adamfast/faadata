@@ -9,3 +9,37 @@ Installation:
   Set settings.FAA_AIRCRAFT_DB_PATH to the path to the registry file downloaded from the above link
   export your DJANGO_SETTINGS_MODULE
   python aircraft/load.py will then import all the aircraft registrations
+
+As an extra bonus, the import-airspace-shapes.sh script will populate a database with geometry for US restricted airspace. It doesn't use Django. Sources are the shapefiles in FADDS and the SoaringWeb OpenAir files at http://soaringweb.org/Airspace/NA/HomePage.html
+
+
+Detailed usage notes:
+
+Postgres:
+
+Create a clean database named "faadata"
+Do the postgis spatial stuff to add functions, CRS, etc. See
+https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#spatialdb-template
+
+
+Django setup:
+
+Get faadata and faddsdata from github
+Put those two python libraries in your PYTHONPATH
+python manage.py syncdb
+python manage.py runserver
+test the server
+  http://127.0.0.1:8000/airports/ should be empty
+  http://127.0.0.1:8000/airports/SQL/ should return a 404 saying "No airport found matching the query"
+
+Data import:
+
+Download and unpack the FADDS zip
+Disable DEBUG in settings.py
+python manage.py fadds_import --faddspath=$HOME/src/faa-postgis/Oct20-Dec15/
+  takes a few minutes
+Re-enable DEBUG in settings.py
+python manage.py runserver
+test the server
+  http://127.0.0.1:8000/airports/ should show page 1 of 996 or so with 20 airports
+  http://127.0.0.1:8000/airports/SQL/ should show data for San Carlos

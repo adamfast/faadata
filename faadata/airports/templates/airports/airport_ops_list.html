@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load airports_extras %}
+
+{% block content %}
+    {% if object_list %}
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Ops / day</th>
+            <th>GA ops / day</th>
+            <th>Last ops report</th>
+        </tr>
+    {% for object in object_list %}
+        <tr>
+            <td>{{ forloop.counter|pluspagecount:page }}</td>
+            <td><a href='{{ object.get_absolute_url }}'>{{ object.location_identifier }}</a></td>
+            <td>{{ object.facility_name }}</td>
+            <td>{{ object.total_ops|perday }}</td>
+            <td>{{ object.ga_ops|perday}}</td>
+            <td>{{ object.operations_ending_date }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    {% if is_paginated %}
+      <p>
+      {% if page_obj.has_previous %}
+        <a href='?page={{ page_obj.previous_page_number }}'>&lt; Prev</a>&nbsp;&nbsp;
+      {% endif %}
+      Page {{ page }} of {{ paginator.num_pages }}
+      {% if page_obj.has_next %}
+        &nbsp;&nbsp;<a href='?page={{ page_obj.next_page_number }}'>Next &gt;</a>
+      {% endif %}
+    {% endif %}
+
+    {% endif %}
+{% endblock content %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load airports_extras %}
 {% block head_override %}
 <script type="text/javascript">
   function mapInitialize() {
@@ -40,5 +40,16 @@ Aircraft on-field:
     <li>Ultralights: {{ object.ultralights_based }}</li>
 </ul>
 <br>
+Average daily airport operations as of {{object.operations_ending_date}}
+<ul>
+    <li>Commercial: {{object.commercial_services_operations|perday}}</li>
+    <li>Commuter: {{object.commuter_services_operations|perday}}</li>
+    <li>Air taxi: {{object.air_taxi_operations|perday}}</li>
+    <li>GA Local: {{object.ga_local_operations|perday}}</li>
+    <li>GA Itinerant: {{object.ga_itinerant_operations|perday}}</li>
+    <li>Military: {{object.military_operations|perday}}</li>
+</ul>
+<br>
+<a href="http://www.navmonster.com/apt/{{object.location_identifier}}">Navmonster for {{object.location_identifier}}</a>
 <div id="map_canvas" style='width:600px;height:400px;'></div>
 {% endblock content %}
