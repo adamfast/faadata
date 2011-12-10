@@ -48,22 +48,22 @@ class AircraftRegistration(object):
             self.aircraft_type = record[248].strip()
         else:
             self.aircraft_type = None
-        if record[250].strip():
-            self.engine_type = record[250].strip()
+        if record[250:252].strip():
+            self.engine_type = record[250:252].strip()
         else:
             self.engine_type = None
-        self.status_code = record[252].strip()
-        self.mode_s_code = record[254:262].strip()
+        self.status_code = record[253:255].strip()
+        self.mode_s_code = record[256:264].strip()
         self.fractional_ownership = record[265].strip()
         if record[267:275].strip():
             self.airworthiness_date = datetime.datetime.strptime(record[267:275], "%Y%m%d").date()
         else:
             self.airworthiness_date = None
-        self.other_name_1 = record[274:324].strip()
-        self.other_name_2 = record[325:375].strip()
-        self.other_name_3 = record[376:426].strip()
-        self.other_name_4 = record[427:477].strip()
-        self.other_name_5 = record[478:528].strip()
+        self.other_name_1 = record[276:326].strip()
+        self.other_name_2 = record[327:377].strip()
+        self.other_name_3 = record[378:428].strip()
+        self.other_name_4 = record[429:479].strip()
+        self.other_name_5 = record[480:530].strip()
         if record[531:539].strip():
             self.expiration_date = datetime.datetime.strptime(record[531:539], "%Y%m%d").date()
         else:
