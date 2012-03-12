@@ -80,7 +80,7 @@ BUILDER_CERTIFICATION_CODES = (
 )
 
 class AircraftManufacturerCode(models.Model):
-    code = models.CharField(max_length=8)
+    code = models.CharField(max_length=8, db_index=True)
     manufacturer = models.CharField(max_length=30)
     model = models.CharField(max_length=20)
     aircraft_type = models.CharField(max_length=1, choices=AIRCRAFT_TYPE)
@@ -98,7 +98,7 @@ class AircraftManufacturerCode(models.Model):
         return u'%s %s' % (self.manufacturer, self.model)
 
 class AircraftRegistration(models.Model):
-    n_number = models.CharField(max_length=5)
+    n_number = models.CharField(max_length=5, db_index=True)
     serial_number = models.CharField(max_length=30, null=True, blank=True)
     aircraft_mfr_model_code = models.CharField(max_length=7, null=True, blank=True)
     engine_mfr_model_code = models.CharField(max_length=5, null=True, blank=True)
