@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from faadata.aircraft.load import import_aircraftregistration, import_aircraftmanufacturercodes
 
+
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('--path', default='', dest='path',

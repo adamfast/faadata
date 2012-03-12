@@ -79,6 +79,7 @@ BUILDER_CERTIFICATION_CODES = (
     (2, 'Light Sport'),
 )
 
+
 class AircraftManufacturerCode(models.Model):
     code = models.CharField(max_length=8, db_index=True)
     manufacturer = models.CharField(max_length=30)
@@ -96,6 +97,7 @@ class AircraftManufacturerCode(models.Model):
 
     def __unicode__(self):
         return u'%s %s' % (self.manufacturer, self.model)
+
 
 class AircraftRegistration(models.Model):
     n_number = models.CharField(max_length=5, db_index=True)
