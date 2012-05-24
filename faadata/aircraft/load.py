@@ -39,7 +39,7 @@ def import_aircraftregistration(path):
     count = 0
     for line in raw:
         if len(line) > 10: # basically just to catch the last line with it's single char
-            if line[:8] == 'N-NUMBER':
+            if line[3:11] == 'N-NUMBER':
                 pass
             else:
                 try:

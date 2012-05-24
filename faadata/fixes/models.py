@@ -9,6 +9,8 @@ class Fix(models.Model):
     state_post_office_code = models.CharField(max_length=2)
     fix_type = models.CharField(max_length=8, db_index=True)
 
+    objects = models.GeoManager()
+
     def get_absolute_url(self):
         return reverse('fix_detail', args=[self.id])
 

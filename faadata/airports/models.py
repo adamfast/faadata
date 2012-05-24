@@ -33,6 +33,15 @@ class Airport(models.Model):
     military_based = models.IntegerField(default=0)
     ultralights_based = models.IntegerField(default=0)
     icao_identifier = models.CharField(max_length=7)
+    commercial_services_operations = models.IntegerField(default=0)
+    commuter_services_operations = models.IntegerField(default=0)
+    air_taxi_operations = models.IntegerField(default=0)
+    ga_local_operations = models.IntegerField(default=0)
+    ga_itinerant_operations = models.IntegerField(default=0)
+    military_operations = models.IntegerField(default=0)
+    operations_ending_date = models.DateField(null=True, blank=True)
+
+    objects = models.GeoManager()
 
     objects = models.GeoManager()
 

@@ -79,8 +79,48 @@ BUILDER_CERTIFICATION_CODES = (
     (2, 'Light Sport'),
 )
 
+AIRCRAFT_STATUS_OPTIONS = (
+    # per ARData.pdf in the aircraft registration download
+    ('A', 'The Triennial Aircraft Registration form was mailed and has not been returned by the Post Office'),
+    ('D', 'Expired Dealer'),
+    ('E', 'The Certificate of Aircraft Registration was revoked by enforcement action'),
+    ('M', 'Aircraft registered to the manufacturer under their Dealer Certificate'),
+    ('N', 'Non-citizen Corporations which have not returned their flight hour reports'),
+    ('R', 'Registration pending'),
+    ('S', 'Second Triennial Aircraft Registration Form has been mailed'),
+    ('T', 'Valid Registration from a Trainee'),
+    ('V', 'Valid Registration'),
+    ('X', 'Enforcement Letter'),
+    ('Z', 'Permanent Reserved'),
+    ('1', 'Triennial Aircraft Registration form was returned by the Post Office as undeliverable'),
+    ('2', 'N-Number Assigned - but has not yet been registered'),
+    ('3', 'N-Number assigned as a Non Type Certificated aircraft - but has not yet been registered'),
+    ('4', 'N-Number assigned as import - but has not yet been registered'),
+    ('5', 'Reserved N-Number'),
+    ('6', 'Administratively canceled'),
+    ('7', 'Sale reported'),
+    ('8', 'A second attempt has been made at mailing a Triennial Aircraft Registration form to the owner with no response'),
+    ('9', 'Certificate of Registration has been revoked'),
+    ('10', 'N-Number assigned, has not been registered and is pending cancellation'),
+    ('11', 'N-Number assigned as a Non Type Certificated (Amateur) but has not been registered that is pending cancellation'),
+    ('12', 'N-Number assigned as import but has not been registered that is pending cancellation'),
+    ('13', 'Registration Expired'),
+    ('14', 'First Notice for Re-Registration/Renewal'),
+    ('15', 'Second Notice for Re-Registration/Renewal'),
+    ('16', 'Registration Expired - Pending Cancellation'),
+    ('17', 'Sale Reported - Pending Cancellation'),
+    ('18', 'Sale Reported - Canceled'),
+    ('19', 'Registration Pending - Pending Cancellation'),
+    ('20', 'Registration Pending - Canceled'),
+    ('21', 'Revoked - Pending Cancellation'),
+    ('22', 'Revoked - Canceled'),
+    ('23', 'Expired Dealer (Pending Cancellation)'),
+    ('24', 'Third Notice for Re-Registration/Renewal'),
+)
+
+
 class AircraftManufacturerCode(models.Model):
-    code = models.CharField(max_length=8)
+    code = models.CharField(max_length=8, db_index=True)
     manufacturer = models.CharField(max_length=30)
     model = models.CharField(max_length=20)
     aircraft_type = models.CharField(max_length=1, choices=AIRCRAFT_TYPE)
@@ -92,11 +132,14 @@ class AircraftManufacturerCode(models.Model):
     aircraft_weight = models.CharField(max_length=7)
     cruising_speed = models.CharField(max_length=4)
 
+    objects = models.GeoManager()
+
     def __unicode__(self):
         return u'%s %s' % (self.manufacturer, self.model)
 
+
 class AircraftRegistration(models.Model):
-    n_number = models.CharField(max_length=5)
+    n_number = models.CharField(max_length=5, db_index=True)
     serial_number = models.CharField(max_length=30, null=True, blank=True)
     aircraft_mfr_model_code = models.CharField(max_length=7, null=True, blank=True)
     engine_mfr_model_code = models.CharField(max_length=5, null=True, blank=True)
@@ -117,7 +160,7 @@ class AircraftRegistration(models.Model):
     approved_operation_codes = models.CharField(max_length=9, null=True, blank=True)
     aircraft_type = models.IntegerField(choices=AIRCRAFT_TYPE, null=True, blank=True)
     engine_type = models.IntegerField(choices=ENGINE_TYPE, null=True, blank=True)
-    status_code = models.CharField(max_length=1, null=True, blank=True) # need options
+    status_code = models.CharField(max_length=2, null=True, blank=True, choices=AIRCRAFT_STATUS_OPTIONS)
     mode_s_code = models.CharField(max_length=8, null=True, blank=True)
     fractional_ownership = models.CharField(max_length=1, null=True, blank=True)
     airworthiness_date = models.DateField(null=True, blank=True)
@@ -128,6 +171,8 @@ class AircraftRegistration(models.Model):
     other_name_5 = models.CharField(max_length=50, null=True, blank=True)
     expiration_date = models.DateField(null=True, blank=True)
     point = models.PointField(null=True, blank=True, srid=4326)
+
+    objects = models.GeoManager()
 
     def manufacturer_model(self):
         try:

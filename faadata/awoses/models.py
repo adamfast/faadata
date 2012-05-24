@@ -15,6 +15,8 @@ class AWOS(models.Model):
     state = models.CharField(max_length=2)
     effective_date = models.DateField()
 
+    objects = models.GeoManager()
+
     def locator_point(self):
         return self.point
 

@@ -5,7 +5,7 @@ from parser import AircraftRegistration, AircraftManufacturerCode
 
 class AircraftRegistrationFileParsing(TestCase):
     def test_1(self):
-        parsed = AircraftRegistration('1    ,1071                          ,3980115,54556,1988,5,FEDERAL AVIATION ADMINISTRATION                   ,NATL FLIGHT PROGRAM OVERSIGHT OFC,6125 SW 68TH ST RM 137N          ,OKLA CITY         ,OK,73169-1225,2,109,US,20080617,19900214,1T        ,5,5,A,50000001, ,19880909,                                                  ,                                                  ,                                                  ,                                                  ,                                                  ,')
+        parsed = AircraftRegistration('1    ,1071                          ,3980115,54556,1988,5,FEDERAL AVIATION ADMINISTRATION                   ,NATL FLIGHT PROGRAM OVERSIGHT OFC,6125 SW 68TH ST RM 137N          ,OKLA CITY         ,OK,73169-1225,2,109,US,20080617,19900214,1T        ,5,5 ,A ,50000001, ,19880909,                                                  ,                                                  ,                                                  ,                                                  ,                                                  ,20131231,00524101,\n')
         self.failUnlessEqual(parsed.n_number, '1')
         self.failUnlessEqual(parsed.serial_number, '1071')
         self.failUnlessEqual(parsed.aircraft_mfr_model_code, '3980115')

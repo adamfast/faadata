@@ -1,7 +1,6 @@
 from optparse import make_option
 
 from django.conf import settings
-from django.core.management import call_command
 from django.core.management.base import BaseCommand
 
 from faadata.airports.load import airport_import
@@ -11,6 +10,11 @@ class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('--faddspath', default='', dest='fadds',
             help='The directory where the FADDS data is stored.'),
+#        att
+#        rmk
+#        rwy
+#        apt
+#        max_records
     )
     help = ("Imports data from the FADDS data download.")
 
@@ -20,6 +24,4 @@ class Command(BaseCommand):
         else:
             input_path = options['fadds']
 
-            call_command('airport_import', fadds=input_path)
-            call_command('awos_import', fadds=input_path)
-            call_command('fix_import', fadds=input_path)
+            airport_import(open(input_path + 'APT.txt'), {'import_att': True, 'import_rmk': True, 'import_rwy': True, 'import_apt': True}) # , max_records=100)

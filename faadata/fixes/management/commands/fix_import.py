@@ -1,10 +1,9 @@
 from optparse import make_option
 
 from django.conf import settings
-from django.core.management import call_command
 from django.core.management.base import BaseCommand
 
-from faadata.airports.load import airport_import
+from faadata.fixes.load import natfix_import
 
 
 class Command(BaseCommand):
@@ -12,7 +11,7 @@ class Command(BaseCommand):
         make_option('--faddspath', default='', dest='fadds',
             help='The directory where the FADDS data is stored.'),
     )
-    help = ("Imports data from the FADDS data download.")
+    help = ("Imports Fixes from the FADDS data download.")
 
     def handle(self, *args, **options):
         if settings.DEBUG:
@@ -20,6 +19,4 @@ class Command(BaseCommand):
         else:
             input_path = options['fadds']
 
-            call_command('airport_import', fadds=input_path)
-            call_command('awos_import', fadds=input_path)
-            call_command('fix_import', fadds=input_path)
+            natfix_import(open(input_path + 'NATFIX.txt'))
