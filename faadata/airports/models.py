@@ -69,6 +69,24 @@ class Airport(models.Model):
     def locator_point(self):
         return self.point
 
+    def runway_types(self):
+        runway_types = []
+        runways = self.runway_set.filter(airport=self)
+        for runway in runways:
+            for surface in runway.surface_type_condition.split('-'):
+                if len(surface) > 1:
+                    runway_types.append(surface)
+
+        return runway_types
+
+    def runway_lengths(self):
+        runway_lengths = []
+        runways = self.runway_set.filter(airport=self)
+        for runway in runways:
+            runway_lengths.append(runway.runway_length)
+
+        return runway_lengths
+
     def __unicode__(self):
         return self.facility_name
 
