@@ -136,6 +136,8 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             try:
                 airport.save()
             except Exception, e:
+                from pprint import pprint
+                pprint(data)
                 print('Airport data fail for %s' % data['location_identifier'])
                 print e
 
