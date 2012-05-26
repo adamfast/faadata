@@ -4,21 +4,41 @@ from django.contrib.gis.geos import LineString
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
+AIRPORT_OWNERSHIP_TYPES = (
+    ('PU', 'PUBLICLY OWNED'),
+    ('PR', 'PRIVATELY OWNED'),
+    ('MA', 'AIR FORCE OWNED'),
+    ('MN', 'NAVY OWNED'),
+    ('MR', 'ARMY OWNED'),
+)
+
+FACILITY_USE_TYPES = (
+    ('PU', 'OPEN TO THE PUBLIC'),
+    ('PR', 'PRIVATE'),
+)
+
+AIRPORT_STATUSES = (
+    ('CI', 'CLOSED INDEFINITELY'),
+    ('CP', 'CLOSED PERMANENTLY'),
+    ('O', 'OPERATIONAL'),
+)
+
+
 class Airport(models.Model):
     facility_site_number = models.CharField(max_length=11, primary_key=True, unique=True)
     location_identifier = models.CharField(max_length=4)
     facility_name = models.CharField(max_length=50)
     facility_type = models.CharField(max_length=16)
     associated_state_post_office_code = models.CharField(max_length=2)
-    ownership_type = models.CharField(max_length=2)
-    use_type = models.CharField(max_length=2)
+    ownership_type = models.CharField(max_length=2, choices=AIRPORT_OWNERSHIP_TYPES)
+    use_type = models.CharField(max_length=2, choices=FACILITY_USE_TYPES)
     owners_name = models.CharField(max_length=35)
     facility_manager_name = models.CharField(max_length=35)
     point = models.PointField(srid=4326)
     elevation_msl = models.DecimalField(max_digits=7, decimal_places=1)
     traffic_pattern_agl = models.IntegerField(null=True, blank=True)
     activation_date = models.DateField(null=True, blank=True)
-    status = models.CharField(max_length=2)
+    status = models.CharField(max_length=2, choices=AIRPORT_STATUSES)
     control_tower = models.BooleanField()
     ctaf = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     segmented_circle = models.BooleanField()
