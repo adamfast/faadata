@@ -43,8 +43,6 @@ class Airport(models.Model):
 
     objects = models.GeoManager()
 
-    objects = models.GeoManager()
-
     def get_absolute_url(self):
         return reverse('airport_detail', args=[self.location_identifier])
 
