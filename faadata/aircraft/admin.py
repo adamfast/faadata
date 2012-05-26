@@ -3,7 +3,7 @@ from models import *
 
 class AircraftRegistrationAdmin(admin.ModelAdmin):
     list_display = ('n_number', 'aircraft_mfr_model_code', 'engine_mfr_model_code', 'year_mfg', 'city', 'state', 'aircraft_type', )
-    list_filter = ('type_registrant', 'aircraft_type', 'engine_type', 'status_code')
+    list_filter = ('type_registrant', 'aircraft_type', 'engine_type', 'airworthiness_classification_code', 'state')
     search_fields = ('n_number',)
 
 class AircraftManufacturerCodeAdmin(admin.ModelAdmin):
