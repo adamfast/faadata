@@ -2,7 +2,8 @@ from django.test import TestCase
 from faadata.airports.utils import *
 
 class AirportTests(TestCase):
-    fixtures = ['airports.json']
+
+    fixtures = ['airports_k_tests.json']
 
     def test_decide_k(self):
         self.assertEqual(decide_k('EOS'), 'EOS')
