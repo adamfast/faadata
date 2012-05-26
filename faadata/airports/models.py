@@ -7,7 +7,7 @@ from django.template.defaultfilters import slugify
 class Airport(models.Model):
     facility_site_number = models.CharField(max_length=11, primary_key=True, unique=True)
     location_identifier = models.CharField(max_length=4)
-    facility_name = models.CharField(max_length=42)
+    facility_name = models.CharField(max_length=50)
     facility_type = models.CharField(max_length=16)
     associated_state_post_office_code = models.CharField(max_length=2)
     ownership_type = models.CharField(max_length=2)
@@ -15,7 +15,7 @@ class Airport(models.Model):
     owners_name = models.CharField(max_length=35)
     facility_manager_name = models.CharField(max_length=35)
     point = models.PointField(srid=4326)
-    elevation_msl = models.IntegerField()
+    elevation_msl = models.DecimalField(max_digits=7, decimal_places=1)
     traffic_pattern_agl = models.IntegerField(null=True, blank=True)
     activation_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=2)
