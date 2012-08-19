@@ -118,6 +118,10 @@ AIRCRAFT_STATUS_OPTIONS = (
     ('24', 'Third Notice for Re-Registration/Renewal'),
 )
 
+GEOCODE_TYPE_CHOICES = (
+    ('zi', 'Zip Code'),
+)
+
 
 class AircraftManufacturerCode(models.Model):
     code = models.CharField(max_length=8, db_index=True)
@@ -171,6 +175,8 @@ class AircraftRegistration(models.Model):
     other_name_5 = models.CharField(max_length=50, null=True, blank=True)
     expiration_date = models.DateField(null=True, blank=True)
     point = models.PointField(null=True, blank=True, srid=4326)
+    geocode_type = models.CharField(choices=GEOCODE_TYPE_CHOICES, max_length=2, null=True, blank=True)
+    geocode_date = models.DateField(null=True, blank=True)
 
     objects = models.GeoManager()
 
