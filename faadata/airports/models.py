@@ -26,7 +26,7 @@ AIRPORT_STATUSES = (
 
 class Airport(models.Model):
     facility_site_number = models.CharField(max_length=11, primary_key=True, unique=True)
-    location_identifier = models.CharField(max_length=4)
+    location_identifier = models.CharField(max_length=7, unique=True)
     facility_name = models.CharField(max_length=50)
     facility_type = models.CharField(max_length=16)
     associated_state_post_office_code = models.CharField(max_length=2)
