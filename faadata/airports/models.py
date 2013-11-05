@@ -92,7 +92,7 @@ class Airport(models.Model):
 
 class Remark(models.Model):
     airport = models.ForeignKey(Airport)
-    element_name = models.CharField(max_length=11)
+    element_name = models.CharField(max_length=13)
     body = models.TextField()
 
     objects = models.GeoManager()

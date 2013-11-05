@@ -1,10 +1,10 @@
-*NOTE*: The April 5, 2012 cycle of FADDS has moved to a new format, breaking these importers. I will update them when I get the time (or it becomes a blocker to something I need) but in the meantime would absolutely accept a pull request if you're so inclined.
+*NOTE*: faadata has been checked with FADDS data from the October 17-December 12 2013 cycle. The remarks name was lengthened with a South migration to match the new format. Cycles previous to Oct 17 2013 should use one commit back.
 
 This project provides Django models and simple import scripts to load data provided by the Federal Aviation Administration.
 
 Sub-apps:
   aircraft      Store / import data from the public Aircraft Registry (http://www.faa.gov/licenses_certificates/aircraft_certification/aircraft_registry/releasable_aircraft_download/)
-  airports      Store / import data from the FADDS "APT" database - includes airport facilities, runways, attendance hours and remarks specific to those three items. This app is in a "pre-beta" state, the parsers are there to break everything apart but no models exist to store the data and the import process isn't done yet, either.
+  airports      Store / import data from the FADDS "APT" database - includes airport facilities, runways, attendance hours and remarks specific to those three items.
   awoses      Store / import data from the FADDS "AWOS" database - this lists all "automated weather observation stations" with their locations, codes, and phone numbers.
 
 Installation:
