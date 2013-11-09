@@ -74,6 +74,10 @@ def import_aircraftregistration(path):
                     record.other_name_4 = data.other_name_4
                     record.other_name_5 = data.other_name_5
                     record.expiration_date = data.expiration_date
+                    record.unique_id = data.unique_id
+                    record.kit_manufacturer = data.kit_manufacturer
+                    record.kit_model = data.kit_model
+                    record.mode_s_code_hex = data.mode_s_code_hex
                     record.save()
                 except KeyboardInterrupt:
                     exit()

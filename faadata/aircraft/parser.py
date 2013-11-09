@@ -68,3 +68,7 @@ class AircraftRegistration(object):
             self.expiration_date = datetime.datetime.strptime(record[531:539], "%Y%m%d").date()
         else:
             self.expiration_date = None
+        self.unique_id = record[540:548].strip()
+        self.kit_manufacturer = record[549:579].strip()
+        self.kit_model = record[580:600].strip()
+        self.mode_s_code_hex = record[601:611].strip()
