@@ -5,7 +5,7 @@ from faadata.airports.models import Airport
 class AWOS(models.Model):
     identifier = models.CharField(max_length=5)
     sensor_type = models.CharField(max_length=10)
-    commissioned = models.BooleanField()
+    commissioned = models.BooleanField(default=False)
     point = models.PointField(srid=4326, null=True, blank=True)
     frequency = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     second_frequency = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
