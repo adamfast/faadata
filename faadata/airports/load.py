@@ -23,6 +23,8 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
     if config['import_rmk']:
         Remark.objects.all().delete() # there's no way to version them. Start with a clean slate each time.
 
+    mismatched_airport_facility_site_numbers = {}
+
     count = 0
     for line in importfile:
         data = parse_apt_line(clean_chars(line))
@@ -30,7 +32,17 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
         try:
             airport = Airport.objects.get(facility_site_number=data['facility_site_number'])
         except Airport.DoesNotExist:
-            airport = Airport(facility_site_number=data['facility_site_number'])
+            if data.get('location_identifier', None):
+                try:
+                    airport = Airport.objects.get(location_identifier=data['location_identifier'])
+                    mismatched_airport_facility_site_numbers[data['facility_site_number']] = airport.facility_site_number
+                except Airport.DoesNotExist:
+                    airport = Airport(facility_site_number=data['facility_site_number'])
+            else:
+                try:
+                    airport = Airport.objects.get(facility_site_number=mismatched_airport_facility_site_numbers[data['facility_site_number']])
+                except Airport.DoesNotExist:
+                    airport = Airport(facility_site_number=data['facility_site_number'])
 
         if data['record_type'] == 'ATT' and config['import_att']:
             try:
@@ -85,10 +97,14 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             runway.save()
 
         elif data['record_type'] == 'APT' and config['import_apt']:
+            if airport.location_identifier != '' and airport.location_identifier != data['location_identifier']:
+                print("Location Identifier for %s changed from %s to %s, this may cause data issues." % (airport.facility_site_number, airport.location_identifier, data['location_identifier']))
             airport.location_identifier = data['location_identifier']
             airport.facility_name = data['facility_name']
             airport.facility_type = data['facility_type']
+            airport.associated_city = data['associated_city']
             airport.associated_state_post_office_code = data['associated_state_post_office_code']
+            airport.associated_state_name = data['associated_state_name']
             airport.ownership_type = data['ownership_type']
             airport.use_type = data['use_type']
             airport.owners_name = data['owners_name']
