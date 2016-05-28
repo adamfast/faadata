@@ -32,24 +32,32 @@ class Command(BaseCommand):  # pragma: no cover
                     this_airport = Airport.objects.get(location_identifier=airport[1])
                 except Airport.DoesNotExist:
                     this_airport = Airport(location_identifier=airport[1])
-                    this_airport.facility_site_number = airport_id
-                    this_airport.location_identifier = airport[1]
-                    this_airport.facility_type = airport[2]
-                    this_airport.facility_name = airport[3][:50]
 
-                    if len(airport[4]) > 0 and len(airport[5]) > 0:
-                        this_airport.point = Point((Decimal(airport[5]), Decimal(airport[4])),)
+                if this_airport.facility_site_number != '' and not this_airport.facility_site_number.startswith('oura-'):
+                    continue  # came in from FAA data, don't overwrite that
 
-                    if len(airport[6]) > 0:
-                        this_airport.elevation_msl = airport[6]
-                    else:
-                        this_airport.elevation_msl = -1111
+                if not this_airport.facility_site_number:
+                    this_airport.facility_site_number = airport_id  # set if not set, but don't overwrite this if it's there, since it's the PK will cause a new record to be saved and that will conflict since location_identifier is enforced unique
+                elif this_airport.facility_site_number != airport_id:  # it's changed
+                    print("PK for %s has changed from %s to %s" % (this_airport.location_identifier, this_airport.facility_site_number, airport_id))
+                this_airport.facility_type = airport[2]
+                this_airport.facility_name = airport[3][:50]
+                this_airport.associated_city = airport[10][:40]
+                this_airport.associated_state_post_office_code = airport[9].replace('US-', '')[:2] if airport[9].startswith('US') else ''
 
-                    this_airport.icao_identifier = airport[13]
-                    if len(airport[4]) > 0 and len(airport[5]) > 0:
-                        this_airport.save()
-                    else:
-                        print("No point was available for %s so it was skipped." % airport[1])
+                if len(airport[4]) > 0 and len(airport[5]) > 0:
+                    this_airport.point = Point((Decimal(airport[5]), Decimal(airport[4])),)
+
+                if len(airport[6]) > 0:
+                    this_airport.elevation_msl = airport[6]
+                else:
+                    this_airport.elevation_msl = -1111
+
+                this_airport.icao_identifier = airport[13]
+                if len(airport[4]) > 0 and len(airport[5]) > 0:
+                    this_airport.save()
+                else:
+                    print("No point was available for %s so it was skipped." % airport[1])
 
 
 # [00] "id",
