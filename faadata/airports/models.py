@@ -114,7 +114,7 @@ class Attendance(models.Model):
 
 class Runway(models.Model):
     airport = models.ForeignKey(Airport)
-    runway_identification = models.CharField(max_length='7')
+    runway_identification = models.CharField(max_length=7)
     runway_length = models.IntegerField(null=True, blank=True)
     runway_width = models.IntegerField(null=True, blank=True)
     surface_type_condition = models.CharField(max_length=14, null=True, blank=True)
