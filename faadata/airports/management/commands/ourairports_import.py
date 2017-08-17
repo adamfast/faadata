@@ -6,18 +6,15 @@ from django.contrib.gis.geos import Point
 from django.core.cache import cache
 from django.core.management.base import BaseCommand
 
-from optparse import make_option
-
 from faadata.airports.models import Airport
 
 
 class Command(BaseCommand):  # pragma: no cover
-
-    option_list = BaseCommand.option_list + (
-        make_option('--path', default='', dest='path',
-            help='The directory where the OurAirports data is stored.'),
-    )
     help = ("Imports data from the OurAirports data download.")
+
+    def add_arguments(self, parser):
+        parser.add_argument('--path', default='', dest='path',
+                            help='The directory where the OurAirports data is stored.')
 
     def handle(self, *args, **options):
         ourairports_file = open(os.path.join(options['path'], 'airports.csv'), 'rU')
