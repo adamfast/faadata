@@ -6,9 +6,9 @@ from faadata.aircraft.models import AircraftRegistration, AircraftManufacturerCo
 from faadata.aircraft.parser import AircraftRegistration as AircraftRegistrationParser
 from faadata.aircraft.parser import AircraftManufacturerCode as AircraftManufacturerCodeParser
 
-# for the file I have, the line count is 369,952 total.
-# One blank line at the end, and the header line. That means I should get a final count of 369,952 total.
-NUMBER_OF_LINES_SPOTTED_IN_FILE = 369952
+# for the file I have, the line count is 314,509 total.
+# One blank line at the end, and the header line. That means I should get a final count of 314,507 total.
+NUMBER_OF_LINES_SPOTTED_IN_FILE = 314507
 
 def import_aircraftmanufacturercodes(path):
     raw = open(path + 'ACFTREF.txt')

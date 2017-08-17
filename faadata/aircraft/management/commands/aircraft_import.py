@@ -8,11 +8,11 @@ from faadata.aircraft.load import import_aircraftregistration, import_aircraftma
 
 
 class Command(BaseCommand):
-    option_list = BaseCommand.option_list + (
-        make_option('--path', default='', dest='path',
-            help='The directory where the aircraft data is stored.'),
-    )
     help = ("Imports data from the FAA aircraft data download.")
+
+    def add_arguments(self, parser):
+        parser.add_argument('--path', default='', dest='path',
+                            help='The directory where the aircraft data is stored.')
 
     def handle(self, *args, **options):
         if settings.DEBUG:
