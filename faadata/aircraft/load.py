@@ -6,9 +6,9 @@ from faadata.aircraft.models import AircraftRegistration, AircraftManufacturerCo
 from faadata.aircraft.parser import AircraftRegistration as AircraftRegistrationParser
 from faadata.aircraft.parser import AircraftManufacturerCode as AircraftManufacturerCodeParser
 
-# for the file I have, the line count is 314,509 total.
+# for the file I have (8/7/22), the line count is 287,731 total.
 # One blank line at the end, and the header line. That means I should get a final count of 314,507 total.
-NUMBER_OF_LINES_SPOTTED_IN_FILE = 314507
+NUMBER_OF_LINES_SPOTTED_IN_FILE = 287730
 
 def import_aircraftmanufacturercodes(path):
     raw = open(path + 'ACFTREF.txt')
@@ -37,9 +37,10 @@ def import_aircraftregistration(path):
     raw = open(path + 'MASTER.txt')
 
     count = 0
+    start = datetime.datetime.now()
     for line in raw:
         if len(line) > 10: # basically just to catch the last line with it's single char
-            if line[3:11] == 'N-NUMBER':
+            if line[1:9] == 'N-NUMBER':
                 pass
             else:
                 try:
@@ -82,13 +83,16 @@ def import_aircraftregistration(path):
                 except KeyboardInterrupt:
                     exit()
                 except:
-                    print line
-                    print sys.exc_info()[0]
-                    print sys.exc_info()[1]
+                    print(line)
+                    print(sys.exc_info()[0])
+                    print(sys.exc_info()[1])
 
                 count = count + 1
-                if count % 100 == 0: # every hundred
-                    db.reset_queries() # clear the "cache" of SQL queries every hundred to keep it from absolutely killing memory
+                if count % 1000 == 0:  # every thousand
+                    db.reset_queries()  # clear the "cache" of SQL queries every hundred to keep it from absolutely killing memory
+                    elapsed = datetime.datetime.now() - start
+                    print(f'1000...{elapsed.seconds}')
+                    start = datetime.datetime.now()
 
         else: # line shorter than 10
             print ('Line less than 10. *%s*' % line)
@@ -100,10 +104,12 @@ def import_aircraftregistration(path):
 if __name__ == '__main__':
     # You can get the FAA Aircraft database from: http://www.faa.gov/licenses_certificates/aircraft_certification/aircraft_registry/releasable_aircraft_download/
     if getattr(settings, 'FAA_AIRCRAFT_DB_PATH', False):
+        print('Importing Aircraft Registrations')
         start_time = datetime.datetime.now()
         import_aircraftregistration(settings.FAA_AIRCRAFT_DB_PATH)
+        print('Aircraft Registrations imported, starting Aircraft Manufacturer Codes')
         import_aircraftmanufacturercodes(settings.FAA_AIRCRAFT_DB_PATH)
-        print('Took %s' % (datetime.datetime.now() - start_time))
-#        print('Assuming manual count (%s) that is %s sec. per record' % (int(NUMBER_OF_LINES_SPOTTED_IN_FILE), (datetime.datetime.now() - start_time) / int(NUMBER_OF_LINES_SPOTTED_IN_FILE)))
+        elapsed = (datetime.datetime.now() - start_time)
+        print(f'Aircraft Manufacturer Codes imported.\nBoth imports took {elapsed.seconds}')
     else:
         print('Do not know path to find the file. Set FAA_AIRCRAFT_DB_PATH.')

@@ -15,12 +15,19 @@ class Command(BaseCommand):
                             help='The directory where the aircraft data is stored.')
 
     def handle(self, *args, **options):
+        # from faadata.aircraft.models import AircraftRegistration
+        # AircraftRegistration.objects.all().delete()
+        # print('all aircraft deleted')
+        # return
         if settings.DEBUG:
             print('You really should turn settings.DEBUG off, or else this script will eat a very large amount of your RAM.')
         else:
             input_path = options['path']
 
+            print('Importing Aircraft Registrations')
             start_time = datetime.datetime.now()
             import_aircraftregistration(input_path)
+            print('Aircraft Registrations imported, starting Aircraft Manufacturer Codes')
             import_aircraftmanufacturercodes(input_path)
-            print('Took %s' % (datetime.datetime.now() - start_time))
+            elapsed = (datetime.datetime.now() - start_time)
+            print(f'Aircraft Manufacturer Codes imported.\nBoth imports took {elapsed.seconds}')

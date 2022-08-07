@@ -43,15 +43,17 @@ AIRWORTHINESS_CODE = (
 )
 
 AIRCRAFT_TYPE = (
-    (1, 'Glider'),
-    (2, 'Balloon'),
-    (3, 'Blimp/Dirigible'),
-    (4, 'Fixed wing single engine'),
-    (5, 'Fixed wing multi engine'),
-    (6, 'Rotorcraft'),
-    (7, 'Weight-shift-control'),
-    (8, 'Powered Parachute'),
-    (9, 'Gyroplane'),
+    ('1', 'Glider'),
+    ('2', 'Balloon'),
+    ('3', 'Blimp/Dirigible'),
+    ('4', 'Fixed wing single engine'),
+    ('5', 'Fixed wing multi engine'),
+    ('6', 'Rotorcraft'),
+    ('7', 'Weight-shift-control'),
+    ('8', 'Powered Parachute'),
+    ('9', 'Gyroplane'),
+    ('H', 'Powered Lift'),
+    ('O', 'Other'),
 )
 
 ENGINE_TYPE = (
@@ -160,7 +162,7 @@ class AircraftRegistration(models.Model):
     certificate_issue_date = models.DateField(null=True, blank=True)
     airworthiness_classification_code = models.CharField(max_length=1, choices=AIRWORTHINESS_CODE, null=True, blank=True)
     approved_operation_codes = models.CharField(max_length=9, null=True, blank=True)
-    aircraft_type = models.IntegerField(choices=AIRCRAFT_TYPE, null=True, blank=True)
+    aircraft_type = models.CharField(choices=AIRCRAFT_TYPE, max_length=1, null=False, blank=True, default='')
     engine_type = models.IntegerField(choices=ENGINE_TYPE, null=True, blank=True)
     status_code = models.CharField(max_length=2, null=True, blank=True, choices=AIRCRAFT_STATUS_OPTIONS)
     mode_s_code = models.CharField(max_length=8, null=True, blank=True, db_index=True)
