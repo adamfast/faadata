@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='faadata',
-    version='1.0.0',
+    version='2.0.0alpha1',
     description='Models and load scripts used to import FAA (and FADDS) data into Django',
     author='Adam Fast',
     author_email='adamfast@gmail.com',
