@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 try:
     from south.modelsinspector import add_introspection_rules
@@ -136,8 +136,6 @@ class AircraftManufacturerCode(models.Model):
     aircraft_weight = models.CharField(max_length=7)
     cruising_speed = models.CharField(max_length=4)
 
-    objects = models.GeoManager()
-
     def __unicode__(self):
         return u'%s %s' % (self.manufacturer, self.model)
 
@@ -181,8 +179,6 @@ class AircraftRegistration(models.Model):
     point = models.PointField(null=True, blank=True, srid=4326)
     geocode_type = models.CharField(choices=GEOCODE_TYPE_CHOICES, max_length=2, null=True, blank=True)
     geocode_date = models.DateField(null=True, blank=True)
-
-    objects = models.GeoManager()
 
     def manufacturer_model(self):
         try:
