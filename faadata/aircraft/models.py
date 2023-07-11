@@ -18,28 +18,29 @@ TYPE_REGISTRANT_CHOICES = (
 )
 
 REGION_CHOICES = (
-    (1, 'Eastern'),
-    (2, 'Southwestern'),
-    (3, 'Central'),
-    (4, 'Western-Pacific'),
-    (5, 'Alaskan'),
-    (7, 'Southern'),
-    (8, 'European'),
+    ('1', 'Eastern'),
+    ('2', 'Southwestern'),
+    ('3', 'Central'),
+    ('4', 'Western-Pacific'),
+    ('5', 'Alaskan'),
+    ('7', 'Southern'),
+    ('8', 'European'),
     ('C', 'Great Lakes'),
     ('E', 'New England'),
     ('S', 'Northwest Mountain'),
 )
 
 AIRWORTHINESS_CODE = (
-    (1, 'Standard'),
-    (2, 'Limited'),
-    (3, 'Restricted'),
-    (4, 'Experimental'),
-    (5, 'Provisional'),
-    (6, 'Multiple'),
-    (7, 'Primary'),
-    (8, 'Special Flight Permit'),
-    (9, 'Light Sport'),
+    ('', 'Unknown'),
+    ('1', 'Standard'),
+    ('2', 'Limited'),
+    ('3', 'Restricted'),
+    ('4', 'Experimental'),
+    ('5', 'Provisional'),
+    ('6', 'Multiple'),
+    ('7', 'Primary'),
+    ('8', 'Special Flight Permit'),
+    ('9', 'Light Sport'),
 )
 
 AIRCRAFT_TYPE = (
@@ -67,6 +68,8 @@ ENGINE_TYPE = (
     (7, '2 Cycle'),
     (8, '4 Cycle'),
     (9, 'Unknown'),
+    (10, 'Electric'),
+    (11, 'Rotary'),
 )
 
 AIRCRAFT_CATEGORY_CODES = (
@@ -130,7 +133,7 @@ class AircraftManufacturerCode(models.Model):
     manufacturer = models.CharField(max_length=30)
     model = models.CharField(max_length=20)
     aircraft_type = models.CharField(max_length=1, choices=AIRCRAFT_TYPE)
-    engine_type = models.CharField(max_length=1, choices=ENGINE_TYPE)
+    engine_type = models.CharField(max_length=2, choices=ENGINE_TYPE)
     category = models.CharField(max_length=1, choices=AIRCRAFT_CATEGORY_CODES)
     builder_certification_code = models.CharField(max_length=1, choices=BUILDER_CERTIFICATION_CODES)
     number_of_engines = models.CharField(max_length=2)
@@ -138,14 +141,26 @@ class AircraftManufacturerCode(models.Model):
     aircraft_weight = models.CharField(max_length=7)
     cruising_speed = models.CharField(max_length=4)
 
-    def __unicode__(self):
-        return u'%s %s' % (self.manufacturer, self.model)
+    def __str__(self):
+        return f'{self.manufacturer} {self.model}'
+
+
+class EngineManufacturerAndModel(models.Model):
+    code = models.CharField(max_length=5, db_index=True)
+    manufacturer = models.CharField(max_length=16)
+    model = models.CharField(max_length=16)
+    type = models.CharField(max_length=4)
+    horsepower = models.PositiveIntegerField(null=True, blank=True)
+    lbs_thrust = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.manufacturer} {self.model}'
 
 
 class AircraftRegistration(models.Model):
     n_number = models.CharField(max_length=5, db_index=True)
     serial_number = models.CharField(max_length=30, null=True, blank=True)
-    aircraft_mfr_model_code = models.CharField(max_length=7, null=True, blank=True)
+    aircraft_mfr_model_code = models.CharField(max_length=7, null=True, blank=True, db_index=True)
     engine_mfr_model_code = models.CharField(max_length=5, null=True, blank=True)
     year_mfg = models.CharField(max_length=4, null=True, blank=True)
     type_registrant = models.IntegerField(choices=TYPE_REGISTRANT_CHOICES, null=True, blank=True)
@@ -181,6 +196,12 @@ class AircraftRegistration(models.Model):
     point = models.PointField(null=True, blank=True, srid=4326)
     geocode_type = models.CharField(choices=GEOCODE_TYPE_CHOICES, max_length=2, null=True, blank=True)
     geocode_date = models.DateField(null=True, blank=True)
+
+    def engine_manufacturer_model(self):
+        try:
+            return EngineManufacturerAndModel.objects.get(code=self.engine_mfr_model_code)
+        except EngineManufacturerAndModel.DoesNotExist:
+            return None
 
     def manufacturer_model(self):
         try:

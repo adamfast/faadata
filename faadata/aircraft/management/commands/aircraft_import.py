@@ -24,10 +24,17 @@ class Command(BaseCommand):
         else:
             input_path = options['path']
 
+            print('Importing Aircraft Manufacturer Codes')
+            import_aircraftmanufacturercodes(input_path)
+            print('Aircraft Manufacturer Codes imported')
+
+            print('Importing Engine Manufacturer Codes')
+            print('Engine Manufacturer Codes imported')
+
             print('Importing Aircraft Registrations')
             start_time = datetime.datetime.now()
             import_aircraftregistration(input_path)
-            print('Aircraft Registrations imported, starting Aircraft Manufacturer Codes')
-            import_aircraftmanufacturercodes(input_path)
+            print('Aircraft Registrations imported')
+
             elapsed = (datetime.datetime.now() - start_time)
-            print(f'Aircraft Manufacturer Codes imported.\nBoth imports took {elapsed.seconds}')
+            print(f'Both imports took {elapsed.seconds}')

@@ -4,7 +4,7 @@ from faadata.aircraft.models import *
 class AircraftRegistrationAdmin(admin.ModelAdmin):
     list_display = ('n_number', 'aircraft_mfr_model_code', 'engine_mfr_model_code', 'year_mfg', 'city', 'state', 'aircraft_type', )
     list_filter = ('type_registrant', 'aircraft_type', 'engine_type', 'airworthiness_classification_code', 'geocode_type')
-    search_fields = ('n_number',)
+    search_fields = ('n_number', 'mode_s_code_hex')
 
 class AircraftManufacturerCodeAdmin(admin.ModelAdmin):
     list_display = ('code', 'manufacturer', 'model', 'number_of_engines', 'number_of_seats', 'cruising_speed')

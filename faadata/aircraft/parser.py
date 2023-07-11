@@ -1,18 +1,22 @@
 import datetime
 
+
 class AircraftManufacturerCode(object):
     def __init__(self, record):
-        self.code = record[:7].strip()
+        self.code = record[0:7].strip()
         self.manufacturer = record[8:38].strip()
         self.model = record[39:59].strip()
         self.aircraft_type = record[60].strip()
-        self.engine_type = record[62].strip()
-        self.category = record[64].strip()
-        self.builder_certification_code = record[66].strip()
-        self.number_of_engines = record[68:70].strip()
-        self.number_of_seats = record[71:74].strip()
-        self.aircraft_weight = record[75:82].strip()
-        self.cruising_speed = record[83:87].strip()
+        self.engine_type = record[62:64].strip()
+        self.category = record[65].strip()
+        self.builder_certification_code = record[67].strip()
+        self.number_of_engines = record[69:71].strip()
+        self.number_of_seats = record[72:75].strip()
+        self.aircraft_weight = record[76:83].strip()
+        self.cruising_speed = record[84:88].strip()
+        self.tc_data_sheet = record[89:105].strip()
+        self.tc_data_holder = record[106:157].strip()
+
 
 class AircraftRegistration(object):
     def __init__(self, record):
