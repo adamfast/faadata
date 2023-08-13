@@ -48,13 +48,13 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
             try:
                 attendance = Attendance.objects.create(airport=airport, sequence=data['attendace_schedule_sequence'], schedule=data['attendance_schedule'])
             except:
-                print data
+                print(data)
 
         elif data['record_type'] == 'RMK' and config['import_rmk']:
             try:
                 remark = Remark.objects.create(airport=airport, element_name=data['element_name'], body=data['element_text'])
             except:
-                print data
+                print(data)
 
         elif data['record_type'] == 'RWY' and config['import_rwy']:
             try:
@@ -151,11 +151,11 @@ def airport_import(importfile, config={'import_att': True, 'import_rmk': True, '
 
             try:
                 airport.save()
-            except Exception, e:
+            except Exception as e:
                 from pprint import pprint
                 pprint(data)
                 print('Airport data fail for %s' % data['location_identifier'])
-                print e
+                print(e)
 
         count += 1
         if count > max_records:

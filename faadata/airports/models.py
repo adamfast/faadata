@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import LineString
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.defaultfilters import slugify
 
 AIRPORT_OWNERSHIP_TYPES = (
@@ -63,8 +63,6 @@ class Airport(models.Model):
     military_operations = models.IntegerField(default=0)
     operations_ending_date = models.DateField(null=True, blank=True)
 
-    objects = models.GeoManager()
-
     def get_absolute_url(self):
         return reverse('airport_detail', args=[self.location_identifier])
 
@@ -93,27 +91,23 @@ class Airport(models.Model):
         return self.facility_name
 
 class Remark(models.Model):
-    airport = models.ForeignKey(Airport)
+    airport = models.ForeignKey(Airport, on_delete=models.CASCADE)
     element_name = models.CharField(max_length=13)
     body = models.TextField()
-
-    objects = models.GeoManager()
 
     def __unicode__(self):
         return u'%s for %s' % (self.element_name, self.airport)
 
 class Attendance(models.Model):
-    airport = models.ForeignKey(Airport)
+    airport = models.ForeignKey(Airport, on_delete=models.CASCADE)
     sequence = models.IntegerField()
     schedule = models.TextField()
-
-    objects = models.GeoManager()
 
     def __unicode__(self):
         return u'%s for %s' % (self.sequence, self.airport)
 
 class Runway(models.Model):
-    airport = models.ForeignKey(Airport)
+    airport = models.ForeignKey(Airport, on_delete=models.CASCADE)
     runway_identification = models.CharField(max_length=7)
     runway_length = models.IntegerField(null=True, blank=True)
     runway_width = models.IntegerField(null=True, blank=True)
@@ -137,8 +131,6 @@ class Runway(models.Model):
     reciprocal_end_visual_glide_slope_indicators = models.CharField(max_length=8, null=True, blank=True)
     reciprocal_end_runway_visual_range_equipment_locations = models.CharField(max_length=8, null=True, blank=True)
     reciprocal_end_runway_visual_range_equipment = models.BooleanField(default=False)
-
-    objects = models.GeoManager()
 
     def locator_point(self):
         if self.base_end_point and self.reciprocal_end_point:

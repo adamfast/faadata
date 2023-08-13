@@ -6,7 +6,7 @@ from django.contrib import admin
 from faadata.airspace.models import *
 
 
+@admin.register(Airspace)
 class AirspaceAdmin(admin.ModelAdmin):
     list_display = ('name', 'ident', 'airspace_class', 'level', 'sector', 'upper_desc', 'upper_val', 'upper_uom', 'upper_code', 'lower_desc', 'lower_val', 'lower_uom', 'lower_code')
 
-admin.site.register(Airspace, AirspaceAdmin)

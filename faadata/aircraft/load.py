@@ -11,8 +11,10 @@ from faadata.aircraft.parser import AircraftManufacturerCode as AircraftManufact
 NUMBER_OF_LINES_SPOTTED_IN_FILE = 287730
 
 def import_aircraftmanufacturercodes(path):
-    raw = open(path + 'ACFTREF.txt')
+    raw = open(path + 'ACFTREF.txt', mode='r', encoding='utf-8-sig')
 
+    AircraftManufacturerCode.objects.all().delete()
+    print('All Aircraft Manufacturer Codes deleted, starting over')
     for line in raw:
         if len(line) > 10: # basically just to catch the last line with its single char
             if line[:4] == 'CODE':
@@ -34,7 +36,7 @@ def import_aircraftmanufacturercodes(path):
 
 
 def import_aircraftregistration(path):
-    raw = open(path + 'MASTER.txt')
+    raw = open(path + 'MASTER.txt', mode='r', encoding='utf-8-sig')
 
     count = 0
     start = datetime.datetime.now()

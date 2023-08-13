@@ -19,4 +19,12 @@ class Command(BaseCommand):
         else:
             input_path = options['path']
 
-            airport_import(open(input_path + 'APT.txt'), {'import_att': True, 'import_rmk': True, 'import_rwy': True, 'import_apt': True}) # , max_records=100)
+            airport_import(
+                open(input_path + 'APT.txt', mode='r', encoding='WINDOWS-1252'),  # detected by cchardet
+                {
+                    'import_att': False,
+                    'import_rmk': False,
+                    'import_rwy': False,
+                    'import_apt': True,
+                },
+            ) # , max_records=100)

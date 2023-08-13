@@ -10,12 +10,10 @@ class AWOS(models.Model):
     frequency = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     second_frequency = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True)
     telephone = models.CharField(max_length=14)
-    airport = models.ForeignKey(Airport, null=True, blank=True)
+    airport = models.ForeignKey(Airport, null=True, blank=True, on_delete=models.CASCADE)
     city = models.CharField(max_length=40)
     state = models.CharField(max_length=2)
     effective_date = models.DateField()
-
-    objects = models.GeoManager()
 
     def locator_point(self):
         return self.point

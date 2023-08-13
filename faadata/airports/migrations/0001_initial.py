@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('sequence', models.IntegerField()),
                 ('schedule', models.TextField()),
-                ('airport', models.ForeignKey(to='airports.Airport')),
+                ('airport', models.ForeignKey(on_delete=models.CASCADE, to='airports.Airport')),
             ],
             options={
             },
@@ -72,7 +72,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('element_name', models.CharField(max_length=13)),
                 ('body', models.TextField()),
-                ('airport', models.ForeignKey(to='airports.Airport')),
+                ('airport', models.ForeignKey(on_delete=models.CASCADE, to='airports.Airport')),
             ],
             options={
             },
@@ -82,7 +82,7 @@ class Migration(migrations.Migration):
             name='Runway',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('runway_identification', models.CharField(max_length=b'7')),
+                ('runway_identification', models.CharField(max_length=7)),
                 ('runway_length', models.IntegerField(null=True, blank=True)),
                 ('runway_width', models.IntegerField(null=True, blank=True)),
                 ('surface_type_condition', models.CharField(max_length=14, null=True, blank=True)),
@@ -105,7 +105,7 @@ class Migration(migrations.Migration):
                 ('reciprocal_end_visual_glide_slope_indicators', models.CharField(max_length=8, null=True, blank=True)),
                 ('reciprocal_end_runway_visual_range_equipment_locations', models.CharField(max_length=8, null=True, blank=True)),
                 ('reciprocal_end_runway_visual_range_equipment', models.BooleanField(default=False)),
-                ('airport', models.ForeignKey(to='airports.Airport')),
+                ('airport', models.ForeignKey(on_delete=models.CASCADE, to='airports.Airport')),
             ],
             options={
             },

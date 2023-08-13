@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('city', models.CharField(max_length=40)),
                 ('state', models.CharField(max_length=2)),
                 ('effective_date', models.DateField()),
-                ('airport', models.ForeignKey(blank=True, to='airports.Airport', null=True)),
+                ('airport', models.ForeignKey(on_delete=models.CASCADE, blank=True, to='airports.Airport', null=True)),
             ],
             options={
             },
